@@ -10,7 +10,7 @@ import java.util.stream.IntStream;
 public class Matrix {
 	
 	/**
-	 * @invar | rowCount * colCount == rowMajor
+	 * @invar | rowCount * colCount == rowMajor.length
 	 * @invar | rowCount >= 1
 	 * @invar | colCount >= 1
 	 * @invar | rowMajor != null
@@ -59,7 +59,7 @@ public class Matrix {
      * | 			IntStream.range(0, getColCount()).allMatch(j -> result[i*getColCount()+j] == getRows()[i][j]))
 	 */
 	public double[] getRowMajor() {
-		throw new IllegalArgumentException("not yet implemented");
+		return rowMajor.clone();
 	}
 	
 	/**
@@ -69,7 +69,13 @@ public class Matrix {
      * | 			IntStream.range(0, getColCount()).allMatch(j -> result[j*getColCount()+i] == getRows()[i][j]))
 	 */
 	public double[] getColMajor() {
-		throw new IllegalArgumentException("not yet implemented");
+		double[] result = new double[rowMajor.length];
+		for (int i=0;i<rowCount;i++) {
+			for (int j=0;j<colCount;j++) {
+				result[j*rowCount+i] = rowMajor[i*colCount+j];
+			}
+		}
+		return result;
 	}
 	
 	/**
@@ -78,7 +84,7 @@ public class Matrix {
 	 * @post | result == getRows()[row][col]
 	 */
 	public double getElement(int row, int col) {
-		throw new IllegalArgumentException("not yet implemented");
+		return rowMajor[row*colCount+col];
 	}
 	
 	/** 
@@ -88,10 +94,12 @@ public class Matrix {
 	 *	@inspects | rowMajor
 	 *	@post | getRowCount() == rowCount
 	 *	@post | getColCount() == colCount
-	 *	@post | getRowMajor() == rowMajor
+	 *	@post | Arrays.equals(getRowMajor(),rowMajor)
 	 */
 	Matrix(int rowCount, int colCount, double[] rowMajor){
-		throw new IllegalArgumentException("not yet implemented");
+		this.rowCount = rowCount;
+		this.colCount = colCount;
+		this.rowMajor = rowMajor.clone();
 	}
 	
 	
@@ -102,7 +110,11 @@ public class Matrix {
 	 * @post | IntStream.range(0,getRowMajor().length).allMatch(i -> getRowMajor()[i]*scalar == result.getRowMajor()[i])
 	 */
 	Matrix scaled(double scalar) {
-		throw new IllegalArgumentException("not yet implemented");
+		double[] newRowMajor = new double[rowMajor.length];
+		for (int i=0;i<rowMajor.length;i++) {
+			newRowMajor[i] = rowMajor[i]*scalar;
+		}
+		return new Matrix(rowCount, colCount, newRowMajor);
 	}
 	
 	/**
@@ -112,9 +124,13 @@ public class Matrix {
 	 * @post | result != null
 	 * @post | result.getRowCount() == getRowCount()
 	 * @post | result.getColCount() == getColCount()
-	 * @post | IntStream.range(0,getRowMajor().length).allMatch(i -> getRowMajor()[i]*+ other.getRowMajor()[i] == result.getRowMajor()[i])
+	 * @post | IntStream.range(0,getRowMajor().length).allMatch(i -> getRowMajor()[i] + other.getRowMajor()[i] == result.getRowMajor()[i])
 	 */
 	Matrix plus(Matrix other) {
-		throw new IllegalArgumentException("not yet implemented");
+		double[] newRowMajor = new double[rowMajor.length];
+		for (int i=0;i<rowMajor.length;i++) {
+			newRowMajor[i] = rowMajor[i]+ other.getRowMajor()[i];
+		}
+		return new Matrix(rowCount, colCount, newRowMajor);
 	}
 }
