@@ -10,27 +10,46 @@ import java.util.stream.IntStream;
 public class Matrix {
 	
 	/**
+	 * @invar | rowCount * colCount == rowMajor
+	 * @invar | rowCount >= 1
+	 * @invar | colCount >= 1
+	 * @invar | rowMajor != null
+	 */
+	private int rowCount;
+	private int colCount;
+	/**
+	 * @respresentationObject
+	 */
+	private double[] rowMajor;
+	
+	/**
 	 * @creates | result, ...result
 	 * @post | result != null
 	 * @post | result.length > 0
 	 * @post | IntStream.range(0, result.length).allMatch(i -> result[i] != null && result.length >=0)
 	 */
 	public double[][] getRows(){
-		throw new IllegalArgumentException("not yet implemented");
+		double[][] result = new double[rowCount][colCount];
+		for (int i=0; i<rowCount; i++) {
+			for (int j=0; j<colCount; j++) {
+				result[i][j] = rowMajor[i*rowCount+j];
+			}
+		}
+		return result;
 	}
 	
 	/**
 	 * @post result == getRows().length
 	 */
 	public int getRowCount(){
-		throw new IllegalArgumentException("not yet implemented");
+		return rowCount;
 	}
 	
 	/**
 	 * @post result == getRows()[0].length
 	 */
 	public int getColCount(){
-		throw new IllegalArgumentException("not yet implemented");
+		return colCount;
 	}
 	
 	/**
